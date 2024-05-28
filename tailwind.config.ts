@@ -13,6 +13,15 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      fontFamily: {
+        'century': ['"Century Schoolbook"'],
+      },
+      width: {
+        '38': '9.6rem',
+      },
+      colors: {
+        'custom-yellow': '#FFE178',
+      },
     },
   },
   plugins: [],
