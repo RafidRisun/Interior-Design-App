@@ -8,7 +8,6 @@ const MainLayout = ({
   }>) => {
   return (
     <div className='bg-white w-full min-h-screen'>
-        <Navbar/>
         <main>{children}</main>
     </div>
   )

@@ -18,6 +18,7 @@ const config: Config = {
       },
       width: {
         '38': '9.6rem',
+        '192': '25rem'
       },
       colors: {
         'custom-yellow': '#FFE178',

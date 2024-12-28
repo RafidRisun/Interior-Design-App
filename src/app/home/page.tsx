@@ -8,6 +8,9 @@ import balcony1 from '@/images/balcony1.jpg'
 import axios from 'axios';
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Navbar from "@/components/Navbar";
+import Link from "next/link";
+import Cookies from 'js-cookie';
 
 interface Design{
   title: string;
@@ -24,6 +27,20 @@ export default function Home() {
   const [feat1, setFeat1] = useState<Design | undefined>(undefined);
 
   useEffect(() =>{
+    const cat = Cookies.get('category');
+    const subcat = Cookies.get('subcategory');
+    if (cat) {
+      Cookies.remove('category');
+      router.refresh();
+      return; // Stop further execution if redirecting
+    }
+    if (subcat) {
+      Cookies.remove('subcategory')
+      router.refresh();
+      return; // Stop further execution if redirecting
+    }
+    
+
     const fetchData = async () => {
       try {
         const res = await axios.get('http://localhost:3000/design/4');
@@ -34,12 +51,22 @@ export default function Home() {
     };
     fetchData();
   }, [router]); 
+
+  const handleCategoryClick = (category: any) => {
+    document.cookie = `category=${category}; path=/;`;
+
+    router.push('/firstcat');
+  };
     
    
   return(
     <div>
-      <div className="flex flex-col justify-center items-center">
-      <div className="flex w-80 h-36 m-3 relative cursor-pointer">
+      <div className="fixed top-0 left-0 w-full z-50">
+      <Navbar/>
+      </div>
+      
+      <div className="flex flex-col justify-center items-center mt-32">
+      <div className="flex w-80 h-36 m-3 relative cursor-pointer" onClick={() => handleCategoryClick('Category1')}>
         <Image 
           alt="kitchen1 image"
           src={kitchen1}
@@ -50,7 +77,7 @@ export default function Home() {
         </div>
       </div>
       <div className="flex items-center w-80 h-36">
-        <div className="flex w-32 h-36 mr-3 relative cursor-pointer">
+        <div className="flex w-32 h-36 mr-3 relative cursor-pointer" onClick={() => handleCategoryClick('Category2')}>
           <Image 
             alt="closet1 image"
             src={closet1}
@@ -64,7 +91,7 @@ export default function Home() {
           SEE THE<br/> CATEGORY <br/> THAT YOU ARE LOOKING FOR?
         </div>
       </div>
-      <div className="flex w-80 h-36 m-3 relative cursor-pointer">
+      <div className="flex w-80 h-36 m-3 relative cursor-pointer" onClick={() => handleCategoryClick('Category3')}>
         <Image 
           alt="livingroom1 image"
           src={livingroom1}
@@ -75,7 +102,7 @@ export default function Home() {
         </div>
       </div>
       <div className="flex w-80 h-36 space-x-3">
-        <div className="flex w-1/2 relative cursor-pointer">
+        <div className="flex w-1/2 relative cursor-pointer" onClick={() => handleCategoryClick('Category4')}>
           <Image 
             alt="bedroom1 image"
             src={bedroom1}
@@ -85,7 +112,7 @@ export default function Home() {
             Bedroom
           </div>
         </div>
-        <div className="flex w-1/2 relative cursor-pointer">
+        <div className="flex w-1/2 relative cursor-pointer" onClick={() => handleCategoryClick('Category5')}>
           <Image 
             alt="balcony1 image"
             src={balcony1}
@@ -96,7 +123,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="flex m-10 font-century text-m cursor-pointer"><u>All Categories</u></div>
+      <div className="flex m-10 font-century text-m cursor-pointer"><Link href="/categories"><u>All Categories</u></Link></div>
       {feat1 &&(
         <div>
         <div className="flex justify-center bg-slate-500 w-60 h-64 mt-3">Featured1</div>
